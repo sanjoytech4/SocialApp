@@ -8,8 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true">
+        android:orientation="vertical">
 
 
         <android.support.v7.widget.CardView
@@ -46,10 +45,11 @@
                         android:layout_height="100dp"
                         android:id="@+id/icon"/>
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textSize="@dimen/default_text_primary"
                         android:textColor="@color/default_action_bar_color"
+                        android:gravity="center_vertical|right"
                         android:text="@string/add_photo"/>
                 </LinearLayout>
 
@@ -69,18 +69,16 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_height="@dimen/login_btn_height"
+        android:text="@string/skip"
         android:id="@+id/skip_create_team"
-        android:layout_alignParentBottom="true">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Skip"/>
-
-    </LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/button_background"
+        android:layout_marginTop="@dimen/default_margin_vertical"
+        android:textColor="@color/default_btn_text_color"
+        android:textSize="@dimen/login_btn_text_size"
+        android:textAllCaps="false"/>
 
 </RelativeLayout>

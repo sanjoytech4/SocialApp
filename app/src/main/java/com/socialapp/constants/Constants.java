@@ -4,7 +4,7 @@ import android.os.Environment;
 
 public interface Constants {
 
-    String DATA_PATH = Environment.getExternalStorageDirectory().toString() + "/socialApp/";
+    String DATA_PATH = Environment.getExternalStorageDirectory().toString() + "/socialApp";
     String name="name";
     String value="value";
     String login="login";

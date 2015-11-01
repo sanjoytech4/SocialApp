@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loadGeoLocationFragment(){
         GeoLocationFragment geoLocationFragment=new GeoLocationFragment();
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        tx.replace(R.id.login_layout, geoLocationFragment).addToBackStack(geoLocationFragment.getClass().getName());
+        tx.replace(R.id.login_layout, geoLocationFragment);
         tx.commit();
     }
 
@@ -153,6 +153,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void goToMainScreen() {
         Intent intent=new Intent(this,MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

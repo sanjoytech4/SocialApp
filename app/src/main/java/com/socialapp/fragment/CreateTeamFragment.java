@@ -3,6 +3,9 @@ package com.socialapp.fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,6 +28,8 @@ import com.socialapp.inter.FragmentInterface;
 import com.socialapp.utils.LoginInfo;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Sanjoy on 01-11-2015.
@@ -33,7 +38,7 @@ public class CreateTeamFragment extends Fragment implements View.OnClickListener
 {
     private FragmentInterface fragmentInterface;
     private EditText teamName;
-    private String teamIconPath="",name;
+    private String teamIconPath,name;
     private String TAG=CreateTeamFragment.class.getSimpleName();
     private ImageView icon;
     @Override
@@ -46,7 +51,7 @@ public class CreateTeamFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_create_team, container, false);
-        LinearLayout layout= (LinearLayout) rootView.findViewById(R.id.skip_create_team);
+        Button layout= (Button) rootView.findViewById(R.id.skip_create_team);
         layout.setOnClickListener(this);
         LinearLayout takeIcon= (LinearLayout) rootView.findViewById(R.id.take_icon);
         takeIcon.setOnClickListener(this);
@@ -122,7 +127,7 @@ public class CreateTeamFragment extends Fragment implements View.OnClickListener
     }
 
     private void showPhotoChooser() {
-        File file = new File(DATA_PATH + System.currentTimeMillis()+".png");
+        File file=getOutputMediaFile();
         teamIconPath=file.getPath();
         Uri outputFileUri = Uri.fromFile(file);
         Intent pickIntent = new Intent();
@@ -144,9 +149,28 @@ public class CreateTeamFragment extends Fragment implements View.OnClickListener
         getActivity(). startActivityForResult(chooserIntent, REQUEST_ICON_CAPTURE);
     }
 
-    public  void updateTeamIcon(String teamIconPath)
+    public void updateTeamIcon(String teamIconPath)
     {
-        teamIconPath=teamIconPath;
-        icon.setImageBitmap(null);
+        if(teamIconPath!=null) {
+            this.teamIconPath = teamIconPath;
+        }
+        Bitmap bitmap=BitmapFactory.decodeFile(this.teamIconPath);
+        Log.i("TAG","imagepath "+teamIconPath);
+        Log.i("TAG","imagepath bitmap "+bitmap);
+        icon.setImageBitmap(bitmap);
+    }
+
+    private File getOutputMediaFile(){
+        File mediaStorageDir = new File(DATA_PATH);
+        if(!mediaStorageDir.exists()){
+            if(!mediaStorageDir.mkdirs()){
+                return null;
+            }
+        }
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        mediaFile = new File(mediaStorageDir.getPath()+File.separator+"IMG_"+timeStamp+".jpg");
+        return mediaFile;
     }
 }
