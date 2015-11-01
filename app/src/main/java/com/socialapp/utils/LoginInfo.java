@@ -9,11 +9,10 @@ public class LoginInfo
     private String SHARED_PREF_NAME="social_app_pref";
     private String SHARED_ACCESS_TOKEN="token";
     private String SHARED_IS_LOGIN="isLogin";
+    private String SHARED_IS_SET_LOCALITY="isLocality";
     private String SHARED_USER_NAME="username";
 
     private String SHARED_LOCALITY="locality";
-//    private String SHARED_LOCALITY_LAT="localityLat";
-//    private String SHARED_LOCALITY_LNG="localityLng";
 
     private SharedPreferences pref;
 
@@ -63,7 +62,12 @@ public class LoginInfo
     {
         SharedPreferences.Editor editor=pref.edit();
         editor.putString(SHARED_LOCALITY, locality);
+        editor.putBoolean(SHARED_IS_SET_LOCALITY,true);
         editor.commit();
+    }
+    public boolean isLocalitySet()
+    {
+        return pref.getBoolean(SHARED_IS_SET_LOCALITY,false);
     }
     public String getLocality()
     {

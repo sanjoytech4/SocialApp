@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    tools:context=".SplashActivity"
+    android:background="@color/default_action_bar_color"
+    >
+
+
+
+    <TextView
+        android:id="@+id/splashText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/app_name"
+        android:textColor="@color/default_action_bar_text_color"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:textSize="36dp" />
+
+</RelativeLayout>

@@ -123,6 +123,7 @@ public class CreateTeamFragment extends Fragment implements View.OnClickListener
 
     private void showPhotoChooser() {
         File file = new File(DATA_PATH + System.currentTimeMillis()+".png");
+        teamIconPath=file.getPath();
         Uri outputFileUri = Uri.fromFile(file);
         Intent pickIntent = new Intent();
         pickIntent.setType("image/*");

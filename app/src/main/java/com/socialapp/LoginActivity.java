@@ -6,11 +6,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -48,16 +46,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         callbackManager = CallbackManager.Factory.create();
         loginInfo=new LoginInfo(this);
         setContentView(R.layout.activity_login);
+        if(loginInfo.isLoggedIn())
+        {
+            loadGeoLocationFragment();
+        }
         Button login= (Button)findViewById(R.id.login_button);
         login.setOnClickListener(this);
         LoginButton fb= (LoginButton) findViewById(R.id.fb_login_button);
-
         fb.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.i(TAG, "loginResult.getAccessToken().getUserId() " + loginResult.getAccessToken().getUserId());
                 loginInfo.setLoggedInUser(loginResult.getAccessToken().getUserId());
                 loginInfo.setAccessToken(loginResult.getAccessToken().getToken());
+                loginInfo.updateLoginStatus(true);
                 loadGeoLocationFragment();
             }
 
@@ -95,7 +97,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.fb_login_button :
                 break;
             case R.id.login_button :
-               // if(isValidate())
+                if(isValidate())
                 {
                     login();
                 }
@@ -184,12 +186,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void createTeamResponse(String response) {
 
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        //manage login result
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        // Logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);
     }
 
@@ -197,7 +205,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onPause() {
         super.onPause();
 
-        // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
     }
 
