@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">SocialApp</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!--Login Page-->
+    <string name="login_title">Login</string>
+    <string name="username_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">confirm Password</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login_progress_message">Logging in..</string>
+
+    <!-- LOGIN RESPONSE -->
+    <string name="auth_failed">Please provide valid credentials to login</string>
+    <string name="default_failed">Please Try again</string>
+    <string name="network_failed">Please check your network connection</string>
+    <string name="valid_username">Please provide valid Email</string>
+    <string name="valid_password">Please provide valid password</string>
+    <string name="password_length_alert">Password should have be at least 8 characters long</string>
+    <string name="password_confirm_password_same_alert">Password and Confirm Password should be same</string>
+
+    <!--Network-->
+    <string name="check_network">Please check your network connection</string>
+    <string name="app_close_dialog_button_ok">Ok</string>
+    <string name="app_close_dialog_button_cancel">Cancel</string>
+    <!-- Locality -->
+    <string name="choose_locality">Choose your locality</string>
+    <string name="enable_location_message">Please enable location service</string>
+    <string name="failed_fetching_locality">Failed to find your Locality.\n Do you want to continue ?</string>
+
+    <!--Create Team Page-->
+    <string name="create_team_title">Create Team</string>
+    <string name="team_name_hint">Team Name</string>
+    <string name="valid_teamName">Please provide valid Team Name</string>
+    <string name="valid_teamIcon">Please choose a team profile icon</string>
+    <string name="choose_photo">Select or take a new Picture</string>
+
+    <!--Main Page-->
+    <string name="others_around_you">Others Around You</string>
+    <string name="team_mission">Team Mission</string>
+    <string name="rewards">Rewards</string>
+
+    <!--Challenge Page-->
+    <string name="send_challenge">Send Challenge</string>
+    <string name="event_date">Event Date</string>
+    <string name="created_by">Created By</string>
+    <string name="send_challenge_message">Sending Challenge..</string>
+
+
+    <string name="fetching_locality">Fetching Locality..</string>
+    <string name="add_photo">Add Photo</string>
+
+    <string name="facebook_app_id">955531337861106</string>
+
+</resources>
