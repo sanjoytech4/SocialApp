@@ -11,6 +11,7 @@ import com.socialapp.bean.Challenge;
 import com.socialapp.bean.Team;
 import com.socialapp.constants.Constants;
 import com.socialapp.inter.AsyncInterface;
+import com.socialapp.utils.LoginInfo;
 import com.socialapp.utils.ProgressDialog;
 
 import org.json.JSONObject;
@@ -29,19 +30,28 @@ import java.util.Set;
 /**
  * Created by Sanjoy on 01-11-2015.
  */
-public class GetChallengeList extends AsyncTask<String,Void,String> implements Constants
+public class GetTeamOrChallengeList extends AsyncTask<String,Void,String> implements Constants
 {
     private String TAG=SendChallengeAsync.class.getSimpleName();
     private Context context;
     ProgressDialog progress;
     private AsyncInterface asyncInterface;
     private Team team;
+    private boolean isChallenge;
+    private LoginInfo loginInfo;
 
-    public GetChallengeList(Context context,Team team)
+    public GetTeamOrChallengeList(Context context, Team team)
     {
         this.context=context;
         this.asyncInterface= (AsyncInterface) context;
         this.team=team;
+        isChallenge=true;
+    }
+
+    public GetTeamOrChallengeList(Context context)
+    {
+        this.context=context;
+        this.asyncInterface= (AsyncInterface) context;
     }
 
     @Override
@@ -56,26 +66,25 @@ public class GetChallengeList extends AsyncTask<String,Void,String> implements C
         try
         {
             URL obj = new URL(getUrl());
+            loginInfo=new LoginInfo(context);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-            con.setRequestProperty("Content-Type","application/json; charset=utf-8");
+            con.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 
             con.setRequestMethod(API_REQUEST_METHOD_GET);
 
             con.setRequestProperty(HEADER_CLIENT_ID, HEADER_CLIENT_ID_VALUE);
             con.setRequestProperty(HEADER_CLIENT_SECRET, HEADER_CLIENT_SECRET_VALUE);
             con.setRequestProperty(HEADER_ORGANIZATION, HEADER_ORGANIZATION_VALUE);
-            con.setRequestProperty(TEAM_ID, team.getId());
+            if(isChallenge) {
+                con.setRequestProperty(TEAM_ID, team.getId());
+            }
+            else {
+                con.setRequestProperty(LOCALITY, loginInfo.getLocality());
+            }
 
             //timeout after 10 seconds
             con.setConnectTimeout(timeoutInMillliseconds);
             con.setReadTimeout(timeoutInMillliseconds);
-
-//            OutputStream os = con.getOutputStream();
-//            BufferedWriter writer = new BufferedWriter( new OutputStreamWriter(os, "UTF-8"));
-//            writer.write(getQuery(params));
-//            writer.flush();
-//            writer.close();
-//            os.close();
 
             int responseCode = con.getResponseCode();
             Log.i(TAG, "Response Code : " + responseCode);
@@ -105,16 +114,28 @@ public class GetChallengeList extends AsyncTask<String,Void,String> implements C
         {
             progress.dismiss();
         }
+        if(isChallenge)
         asyncInterface.getChallengeListResponse(result);
+        else
+            asyncInterface.getTeamListResponse(result);
     }
 
     private String getUrl()
     {
-        String url = Uri.parse(baseURL)
+        String url="";
+        if(isChallenge)
+         url= Uri.parse(baseURL)
                 .buildUpon()
                 .appendEncodedPath(GET_CHALLENGE)
                 .build()
                 .toString();
+        else {
+            url= Uri.parse(baseURL)
+                    .buildUpon()
+                    .appendEncodedPath(GET_TEAM)
+                    .build()
+                    .toString();
+        }
         return url;
     }
 

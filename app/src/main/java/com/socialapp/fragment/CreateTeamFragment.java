@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.socialapp.R;
+import com.socialapp.async.CreateTeamAsync;
 import com.socialapp.bean.Team;
 import com.socialapp.constants.Constants;
 import com.socialapp.db.DatabaseHelper;
@@ -77,8 +78,7 @@ public class CreateTeamFragment extends Fragment implements View.OnClickListener
                     DatabaseHelper helper=DatabaseHelper.getInstance(getActivity());
                     long id=helper.insertTeam( team);
                     team.setLocalId((int)id);
-                    Log.i(TAG,"team.setLocalId((int)id);"+id);
-                    fragmentInterface.removeCreateTeamFragment();
+                    new CreateTeamAsync(getActivity(),team).execute();
                 }
                 break;
             case R.id.take_icon:

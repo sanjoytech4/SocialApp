@@ -37,7 +37,7 @@ public class TeamAdapter  extends ArrayAdapter<Team> {
         TextView ownerName=(TextView)convertView.findViewById(R.id.ownerName);
         Team team=list.get(position);
         teamName.setText(team.getName());
-        ownerName.setText(team.getOwnerName());
+        ownerName.setText(context.getResources().getString(R.string.created_by)+" : "+team.getOwnerName());
         return convertView;
     }
 
@@ -47,10 +47,6 @@ public class TeamAdapter  extends ArrayAdapter<Team> {
     @Override
     public int getCount() {
         return list.size();
-    }
-
-    public void clearSearch(){
-        this.list.clear();
     }
 
     public void setTeamList(ArrayList<Team> list)

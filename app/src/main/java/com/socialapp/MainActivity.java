@@ -1,26 +1,29 @@
 package com.socialapp;
 
-import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.socialapp.async.GetTeamOrChallengeList;
 import com.socialapp.bean.Team;
 import com.socialapp.constants.Constants;
+import com.socialapp.db.DatabaseHelper;
 import com.socialapp.fragment.ChallengeFragment;
 import com.socialapp.fragment.CreateTeamFragment;
 import com.socialapp.fragment.OthersAroundYou;
 import com.socialapp.inter.AsyncInterface;
 import com.socialapp.inter.FragmentInterface;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentInterface,View.OnClickListener,Constants,AsyncInterface {
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements FragmentInterface
         if(createTeamFragment!=null)
         {
             getSupportFragmentManager().beginTransaction().remove(createTeamFragment).commit();
+            setTitle(getResources().getString(R.string.app_name));
         }
     }
 
@@ -64,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements FragmentInterface
     }
 
     private void showCreateTeamFragment(){
+        setTitle(getResources().getString(R.string.create_team_title));
         createTeamFragment=new CreateTeamFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.mainLayout,createTeamFragment).commit();
     }
@@ -76,16 +81,47 @@ public class MainActivity extends AppCompatActivity implements FragmentInterface
                 showOthersAroundYou();
                 break;
             case R.id.team_mission:
+                showTeamMission();
                 break;
             case R.id.rewards:
                 break;
         }
     }
 
+    private  void showTeamMission()
+    {
+        DatabaseHelper helper=DatabaseHelper.getInstance(this);
+        ArrayList<Team>list=helper.getTeamList();
+        if(list.size()==0)
+        {
+            String str="There is no team created yet";
+            showDialog(str);
+        }
+        else
+        {
+            String str="Total Team : "+list.size()+"\n"+
+                    "Total Challenge : "+list.size()*3+"\n"+
+                    "Your Mission :"+"0/"+list.size()*3;
+            showDialog(str);
+        }
+    }
+
+    private void showDialog(String str) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(str);
+        builder.setPositiveButton(getResources().getString(R.string.app_close_dialog_button_ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
     private void showOthersAroundYou()
     {
+        new GetTeamOrChallengeList(this).execute();
         othersAroundYou=new OthersAroundYou();
-        getSupportFragmentManager().beginTransaction().add(R.id.mainLayout,othersAroundYou).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.mainLayout,othersAroundYou).addToBackStack(othersAroundYou.getClass().getSimpleName()).commit();
     }
 
     @Override
@@ -99,13 +135,19 @@ public class MainActivity extends AppCompatActivity implements FragmentInterface
     }
 
     @Override
-    public void getChallengeListResponse(String response) {
+    public void getTeamListResponse(String response) {
+        Toast.makeText(this,"There is no server API, so it is working locally",Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void getChallengeListResponse(String response) {
+        Toast.makeText(this,"There is no server API, so it is working locally",Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void createTeamResponse(String response) {
-
+        Toast.makeText(this,"There is no server API, so Team is created locally",Toast.LENGTH_LONG).show();
+        removeCreateTeamFragment();
     }
 /**
     * Dispatch incoming result to the correct fragment.

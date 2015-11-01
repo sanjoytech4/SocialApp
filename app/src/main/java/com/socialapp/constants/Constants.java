@@ -11,6 +11,7 @@ public interface Constants {
     String password="password";
     String TEAM="team";
     String TEAM_ID="teamId";
+    String LOCALITY="locality";
     String CHALLENGE_ID="challengeId";
     String CHALLENGE_NAME="challengeName";
 
@@ -22,6 +23,7 @@ public interface Constants {
     String login_api="user/registration";
     String CREATE_TEAM="/create_team";
     String SEND_CHALLENGE="/send_challenge";
+    String GET_TEAM="/get_team_list";
     String GET_CHALLENGE="/get_challenge_list";
     String API_REQUEST_METHOD_POST="POST";
     String API_REQUEST_METHOD_GET="GET";

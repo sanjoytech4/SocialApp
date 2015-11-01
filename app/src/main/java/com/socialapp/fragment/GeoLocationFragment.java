@@ -97,10 +97,6 @@ public class GeoLocationFragment extends Fragment  implements View.OnClickListen
         Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 5);
-            String cityName = addresses.get(0).getAddressLine(0);
-            String stateName = addresses.get(0).getAddressLine(1);
-            String countryName = addresses.get(0).getAddressLine(2);
-
             if(addresses.size()==0)
             {
                 showApplicationCloseDialog();
@@ -116,7 +112,6 @@ public class GeoLocationFragment extends Fragment  implements View.OnClickListen
                 {
                     result.add(addresses.get(i));;
                 }
-
             }
 
             Address[] resultArray = new Address[result.size()];

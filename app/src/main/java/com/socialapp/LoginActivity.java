@@ -168,13 +168,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void RegistrationResponse(String response) {
-        loginInfo.setLoggedInUser(name);
+        String str=name.substring(0,name.lastIndexOf("@"));
+        loginInfo.setLoggedInUser(str);
+        loginInfo.updateLoginStatus(true);
         Toast.makeText(this, "There is no server API, so it is working locally", Toast.LENGTH_LONG).show();
         loadGeoLocationFragment();
     }
 
     @Override
     public void sendChallengeResponse(String response) {
+
+    }
+
+    @Override
+    public void getTeamListResponse(String response) {
 
     }
 

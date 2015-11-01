@@ -11,9 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.socialapp.R;
 import com.socialapp.adapter.TeamAdapter;
+import com.socialapp.async.GetTeamOrChallengeList;
 import com.socialapp.bean.Team;
 import com.socialapp.db.DatabaseHelper;
 import com.socialapp.inter.FragmentInterface;
@@ -52,6 +54,11 @@ public class OthersAroundYou  extends Fragment implements AdapterView.OnItemClic
         DatabaseHelper helper=DatabaseHelper.getInstance(getActivity());
         teamList=helper.getTeamList();
         adapter.setTeamList(teamList);
+
+        if(teamList.size()==0)
+        {
+            Toast.makeText(getActivity(), "There is no Created team locally", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
